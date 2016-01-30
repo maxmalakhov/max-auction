@@ -34,6 +34,7 @@ server.on('listening', onListening);
  */
 var tables = require('../models/db-tables');
 tables.create();
+//tables.drop();
 
 /**
  * Normalize a port into a number, string, or false.

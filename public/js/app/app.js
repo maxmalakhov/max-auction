@@ -6,14 +6,16 @@ define([
     'angularAMD',
     'angular-route',
     'app/config',
-    'app/directives/app-stats'
-], function (angular, angularAMD, angularRoute, config, appStats) {
+    'app/directives/app-stats',
+    'app/directives/app-inventory'
+], function (angular, angularAMD, angularRoute, config, appStats, appInventory) {
     'use strict';
 
     var app = angular.module('webapp' , ['ngRoute'] );
     app.config(config);
 
     app.directive('appStats', appStats);
+    app.directive('appInventory', appInventory);
 
     //app.run(function ($window, auth, user) {
     //    auth.setAuthorizationHeaders();

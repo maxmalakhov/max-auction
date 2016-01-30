@@ -65,11 +65,6 @@ a {
     display: block; /* This is required */
 }
 
-.app-icon.icon-logout {
-    background: url(/img/ic_power_settings_new_black_24dp_1x.png);
-    background-size: cover;
-}
-
 .app-icon.normal {
     width: 32px;
     height: 32px;
@@ -78,4 +73,39 @@ a {
 .app-icon.small {
     width: 16px;
     height: 16px;
+}
+
+.app-icon.middle {
+    width: 32px;
+    height: 32px;
+}
+
+.app-icon.large {
+    width: 48px;
+    height: 48px;
+}
+
+.app-icon.icon-logout {
+    background: url(/img/ic_power_settings_new_black_24dp_1x.png);
+    background-size: cover;
+}
+
+.app-icon.icon-bread {
+    background: url(/img/Food-Bread-icon.png);
+    background-size: cover;
+}
+
+.app-icon.icon-carrot {
+    background: url(/img/Food-Carrot-icon.png);
+    background-size: cover;
+}
+
+.app-icon.icon-diamond {
+    background: url(/img/Diamond-icon.png);
+    background-size: cover;
+}
+
+.app-icon.icon-hammer {
+    background: url(/img/Household-Hammer-icon.png);
+    background-size: cover;
 }
