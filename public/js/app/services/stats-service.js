@@ -8,13 +8,12 @@ define([
     'use strict';
 
     return {
-        login: function($http, username, handler) {
+        user: function($http, username, handler) {
             logger.debug('login', username);
 
             $http({
-                method  : 'POST',
-                url     : '/api/user',
-                data    : { username: username }
+                method  : 'GET',
+                url     : '/api/user/' + username
             })
             .success(function(data) {
                 logger.debug(data);

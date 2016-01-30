@@ -1,12 +1,12 @@
 /**
  * Created by max on 1/30/16.
  */
-
 define([
 
 ], function() {
+    'use strict';
 
-    var logger = {
+    return {
         log : function( message, arg ) {
             console.log( message, arg );
         },
@@ -14,7 +14,5 @@ define([
             console.debug( message, arg );
         }
     };
-
-    return logger;
 
 });

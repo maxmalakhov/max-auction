@@ -8,14 +8,18 @@ define([
 ], function (angular, logger, service) {
     'use strict';
 
-    return function($scope, $location, $rootScope) {
+    return function($scope, $location, $rootScope, $http) {
         $scope.enter = function() {
-            if(service.login($scope.username)) {
-                $rootScope.loggedUser = $scope.username;
-                $location.path( "/home" );
-            } else {
-                $scope.error = "Something goes wrong!";
-            }
+
+            service.login($http, $scope.username, function(data) {
+
+                if(data.success) {
+                    $rootScope.loggedUser = $scope.username;
+                    $location.path( "/home" );
+                } else {
+                    $scope.error = "Something went wrong!";
+                }
+            });
         }
     }
 });

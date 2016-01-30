@@ -5,12 +5,15 @@ define([
     'angular',
     'angularAMD',
     'angular-route',
-    'app/config'
-], function (angular, angularAMD, angularRoute, config) {
+    'app/config',
+    'app/directives/app-stats'
+], function (angular, angularAMD, angularRoute, config, appStats) {
     'use strict';
 
     var app = angular.module('webapp' , ['ngRoute'] );
     app.config(config);
+
+    app.directive('appStats', appStats);
 
     //app.run(function ($window, auth, user) {
     //    auth.setAuthorizationHeaders();

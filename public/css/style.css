@@ -49,3 +49,33 @@ a {
     margin: 0 auto;
     width: 200px;
 }
+
+.table-borderless tbody tr td, .table-borderless tbody tr th, .table-borderless tbody tr th input {
+    border: none;
+}
+
+.app-icon {
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    float: left;
+    display: block; /* This is required */
+}
+
+.app-icon.icon-logout {
+    background: url(/img/ic_power_settings_new_black_24dp_1x.png);
+    background-size: cover;
+}
+
+.app-icon.normal {
+    width: 32px;
+    height: 32px;
+}
+
+.app-icon.small {
+    width: 16px;
+    height: 16px;
+}
