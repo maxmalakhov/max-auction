@@ -16,7 +16,6 @@
     "pg": "~4.4.4",
     "underscore": "~1.8.3",
     "bootstrap": "~3.3.6",
-    "static-favicon": "~2.0.0-alpha",
     "session": "~0.1.0",
     "express-session": "~1.13.0"
   },
