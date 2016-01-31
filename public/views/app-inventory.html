@@ -5,11 +5,11 @@
         <table class="table table-striped">
             <tr ng-repeat="item in goods">
                 <td class="vert-align">
-                    <span class="app-icon icon-{{ item.type }} large" title="{{ item.type }}"></span>
+                    <span class="app-icon icon-{{ item.type }} large" title="{{ item.type }}" data-toggle="tooltip" data-placement="left"></span>
                 </td>
                 <td class="vert-align">Quantity: <strong>{{ item.quantity }}</strong></td>
                 <td class="vert-align">
-                    <button class="btn btn-success" type="button" ng-click="start(item.id)">
+                    <button class="btn btn-success" type="button" ng-click="openDialog(item)">
                     <span class="glyphicon glyphicon-share" aria-hidden="true"></span>
                     Auction</button>
                 </td>

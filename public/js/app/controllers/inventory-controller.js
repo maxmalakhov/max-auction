@@ -19,9 +19,5 @@ define([
                 $scope.msg = data.msg;
             }
         });
-
-        $scope.start = function(itemId) {
-            logger.debug('auction', itemId);
-        }
     }
 });
