@@ -17,6 +17,7 @@ require.config({
 
         'jquery': '../lib/jquery.min',
         'bootstrap': '../lib/bootstrap.min',
+        'notify': '../lib/bootstrap-notify.min',
 
         'app': '../js/app',
         'views': '../views'
@@ -44,6 +45,10 @@ require.config({
         'bootstrap': {
             deps: ['jquery'],
             exports: 'bootstrap'
+        },
+        'notify': {
+            deps: ['bootstrap', 'jquery'],
+            exports: 'notify'
         }
     },
     deps: ['app/app']

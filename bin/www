@@ -32,8 +32,7 @@ server.on('listening', onListening);
 /**
  * Create WebSocket server
  */
-var wss = require('../wss');
-wss.init(server);
+var wss = require('../wss')(server);
 
 /**
  * Create database scheme

@@ -8,7 +8,29 @@ var dao =  function() {};
 
 dao.prototype  = {
 
-    'get' : function(username, handler, options) {
+    'get' : function(id, handler, options) {
+
+        pg.connect(connectionString, function(err, client, done) {
+            // Handle connection errors
+            if(err) {
+                return console.log('Could not connect to postgres', err);
+            }
+
+            var results = [];
+            var query = client.query("select * from users where id = $1", [id]);
+            // Stream results back one row at a time
+            query.on('row', function(row) {
+                results.push(row);
+            });
+
+            query.on('end', function() {
+                done();
+                handler(results, options);
+            });
+        });
+    },
+
+    'getByName' : function(username, handler, options) {
 
         pg.connect(connectionString, function(err, client, done) {
             // Handle connection errors
@@ -80,7 +102,7 @@ dao.prototype  = {
 
             query.on('end', function() {
                 done();
-                handler(results, options);
+                handler(results);
             });
         });
     }

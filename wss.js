@@ -3,34 +3,29 @@
  */
 var WebSocketServer = require("ws").Server;
 
-var app = {};
+var auctionService  = require('./services/auction-service');
 
-app.init = function(server) {
+var app = function(server) {
 
     var wss = new WebSocketServer({server: server});
 
+    var auction  = false;
+
     wss.on("connection", function(ws) {
-        var id = setInterval(function() {
-            var auction = {
-                seller: 'Seller',
-                type: 'diamond',
-                quantity: 1,
-                timeleft: 45,
-                lastbid: 100,
-                bid: 101
-            };
-            ws.send(JSON.stringify({ auction: auction }), function() {  })
-        }, 5000);
 
         console.log("websocket connection open");
 
         ws.on('message', function(message) {
             console.log('received: %s', message);
+            var data = JSON.parse(message);
+            switch(data.receiver) {
+                case 'auction': auctionService.handle(ws, data.data); return;
+                default : console.error('Receiver unknown', data.receiver);
+            }
         });
 
         ws.on("close", function() {
             console.log("websocket connection close");
-            clearInterval(id);
         });
     });
 

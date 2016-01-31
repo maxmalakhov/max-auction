@@ -13,9 +13,27 @@ var COINS = 1000;
 
 service.prototype = {
 
-    'getUser' : function(username, handler) {
+    'getUser' : function(user_id, handler) {
 
-        userDao.get(username, function (users) {
+        userDao.get(user_id, function (users) {
+
+            var user = users[0];
+            if(user) {
+                // we can do it async
+                goodsService.getByUser(user.id, function(goods) {
+                    if(goods.length !== 3) {
+                        goodsService.giveGoods(user.id);
+                    }
+                });
+            }
+
+            handler(user);
+        });
+    },
+
+    'getUserByName' : function(username, handler) {
+
+        userDao.getByName(username, function (users) {
 
             var user = users[0];
             if(user) {
@@ -42,8 +60,15 @@ service.prototype = {
 
             handler(user);
         });
-    }
+    },
 
+    'update' : function(user) {
+
+        userDao.update(user.name, user.balance, function (user) {
+
+            handler(user);
+        });
+    }
 };
 
 module.exports = new service();

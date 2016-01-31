@@ -4,12 +4,16 @@
 define([
     'angular',
     'app/utils/logger',
-    'app/services/entry-service'
+    'app/services/auction-service'
 ], function (angular, logger, service) {
     'use strict';
 
     return function($scope, $location, $rootScope, $http) {
         $scope.showModal = false;
+        $scope.auction = {
+            quantity: 1,
+            bid: 1
+        };
 
         $scope.closeDialog = function() {
             $scope.showModal = !$scope.showModal;
@@ -25,7 +29,15 @@ define([
 
             $scope.showModal = !$scope.showModal;
 
-            console.log('start', $scope.item);
+            if($scope.item && $scope.auction) {
+                var auction = angular.copy($scope.item);
+                auction.quantity = $scope.auction.quantity;
+                auction.bid = $scope.auction.bid;
+
+                service.start($rootScope.loggedUser, auction);
+
+                console.log('start', auction);
+            }
         };
     }
 });

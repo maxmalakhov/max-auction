@@ -11,7 +11,7 @@ controller.prototype = {
 
     'getUser' : function(username, success, failure) {
 
-        userService.getUser(username, function(user) {
+        userService.getUserByName(username, function(user) {
             if(user) {
                 success(user);
             } else {
@@ -28,7 +28,7 @@ controller.prototype = {
 
     'getUserGoods' : function(username, success, failure) {
 
-        userService.getUser(username, function(user) {
+        userService.getUserByName(username, function(user) {
             if(user) {
                 goodsService.getByUser(user.id, success);
             } else {
