@@ -3,14 +3,27 @@
  */
 
 var userService  = require('../services/user-service');
+var tradeService  = require('../services/trade-service');
 
 var service = function() {};
 
 var ws = false;
+var wss = false;
 var intervalId = false;
 var current = false;
 
 service.prototype = {
+
+    'init': function(_ws, _wss) {
+        ws = _ws;
+        wss = _wss;
+    },
+
+    'broadcast': function(data) {
+        wss.broadcast(JSON.stringify({ receiver: 'auction', data: data }), function(data) {
+            console.log('sent', data);
+        });
+    },
 
     'notify': function(data) {
         ws.send(JSON.stringify({ receiver: 'auction', data: data }), function(data) {
@@ -18,9 +31,8 @@ service.prototype = {
         });
     },
 
-    'handle': function(_ws, data) {
+    'handle': function(data) {
 
-        ws = _ws;
         var self = this;
 
         switch(data.action) {
@@ -28,20 +40,20 @@ service.prototype = {
                 start(data.user_id, data.auction,
                     function(auction) {
                         self.timer();
-                        self.notify({ auction: auction });
+                        self.broadcast({ auction: auction });
                     },
                     function() {
-                        self.notify({ msg: "Current auction has not been ended yet!" });
+                        self.broadcast({ msg: "Current auction has not been ended yet!" });
                     });
                 return;
             }
             case 'place': {
                 update(data.user_id, data.auction,
                     function(auction) {
-                        self.notify({ auction: auction });
+                        self.broadcast({ auction: auction });
                     },
                     function() {
-                        self.notify({ msg: "Current auction has been already ended!" });
+                        self.broadcast({ msg: "Current auction has been already ended!" });
                     });
                 return;
             }
@@ -57,25 +69,12 @@ service.prototype = {
         intervalId = setInterval(function() {
             processTime(function(auction) {
                 if(auction) {
-                    self.notify({ auction: auction });
+                    self.broadcast({ auction: auction });
                 } else {
-                    self.notify({ auction: auction, msg: "Current auction has been ended!" });
+                    self.broadcast({ auction: auction, msg: "Current auction has been ended!" });
                 }
             });
         }, 1000)
-    },
-
-    'deal': function(auction) {
-        var seller = auction.seller.id;
-        var buyer = auction.buyer.id;
-        var type = auction.type;
-        var price = auction.lastbid;
-        var quantity = auction.quantity;
-
-        if(buyer.balance < auction.lastbid) {
-            self.notify({ auction: false, msg: "Buyer does not have enough coins" });
-            return;
-        }
     }
 };
 
@@ -104,7 +103,7 @@ function update(user_id, auction, success, failure) {
 }
 
 function updateAuction(user, auction) {
-    current.buyer = user.username;
+    current.buyer = user;
     current.lastbid = auction.bid;
     current.bid = auction.bid+1;
     if(current.timeleft < 10) {
@@ -116,6 +115,8 @@ function updateAuction(user, auction) {
 function processTime(handler) {
     if(current.timeleft < 1) {
         clearInterval(intervalId);
+        tradeService.process(ws, current);
+
         current = false;
     } else {
         var time = Math.round((new Date().getTime() - current.starttime) / 1000);

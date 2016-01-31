@@ -30,6 +30,28 @@ dao.prototype  = {
         });
     },
 
+    'getByUserAndType' : function(user_id, type, handler, options) {
+
+        pg.connect(connectionString, function(err, client, done) {
+            // Handle connection errors
+            if(err) {
+                return console.log('Could not connect to postgres', err);
+            }
+
+            var results = [];
+            var query = client.query("select * from goods where user_id = $1 and type = $2", [user_id, type]);
+            // Stream results back one row at a time
+            query.on('row', function(row) {
+                results.push(row);
+            });
+
+            query.on('end', function() {
+                done();
+                handler(results, options);
+            });
+        });
+    },
+
     'create' : function(user_id, type, quantity, handler, options) {
 
         pg.connect(connectionString, function(err, client, done) {
@@ -63,7 +85,7 @@ dao.prototype  = {
         });
     },
 
-    'update' : function(username, balance, handler) {
+    'updateQuantity' : function(item_id, quantity, handler) {
 
         pg.connect(connectionString, function(err, client, done) {
             // Handle connection errors
@@ -73,7 +95,7 @@ dao.prototype  = {
 
             var results = [];
 
-            var query = client.query("update card set balance = $2 where username = $1", [username, balance]);
+            var query = client.query("update goods set quantity = $2 where id = $1", [item_id, quantity]);
 
             query.on('row', function(row) {
                 results.push(row);
@@ -81,7 +103,7 @@ dao.prototype  = {
 
             query.on('end', function() {
                 done();
-                handler(results, options);
+                handler(results);
             });
         });
     }

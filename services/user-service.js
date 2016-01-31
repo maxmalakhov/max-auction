@@ -49,7 +49,7 @@ service.prototype = {
         });
     },
 
-    'createNew' : function(username, handler) {
+    'createNew' : function(username, handler, handler) {
 
         userDao.create(username, capitalise(username), COINS, function (user) {
 
@@ -62,9 +62,9 @@ service.prototype = {
         });
     },
 
-    'update' : function(user) {
+    'updateBalance' : function(user_id, balance, handler) {
 
-        userDao.update(user.name, user.balance, function (user) {
+        userDao.updateBalance(user_id, balance, function (user) {
 
             handler(user);
         });

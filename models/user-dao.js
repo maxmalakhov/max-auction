@@ -84,7 +84,7 @@ dao.prototype  = {
         });
     },
 
-    'update' : function(username, balance, handler) {
+    'updateBalance' : function(user_id, balance, handler) {
 
         pg.connect(connectionString, function(err, client, done) {
             // Handle connection errors
@@ -94,7 +94,7 @@ dao.prototype  = {
 
             var results = [];
 
-            var query = client.query("update card set balance = $2 where username = $1", [username, balance]);
+            var query = client.query("update users set balance = $2 where id = $1", [user_id, balance]);
 
             query.on('row', function(row) {
                 results.push(row);

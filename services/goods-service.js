@@ -24,8 +24,27 @@ service.prototype = {
         goodsDao.create(user_id, BREAD.type, BREAD.quantity);
         goodsDao.create(user_id, CARROT.type, CARROT.quantity);
         goodsDao.create(user_id, DIAMOND.type, DIAMOND.quantity);
-    }
+    },
 
+    'increaseQuantity': function(user_id, type, quantity, handler) {
+
+        goodsDao.getByUserAndType(user_id, type, function(goods) {
+            if(goods.length === 1) {
+                var new_quantity = parseInt(goods[0].quantity) + quantity;
+                goodsDao.updateQuantity(goods[0].id, new_quantity, handler);
+            }
+        });
+    },
+
+    'decreaseQuantity': function(user_id, type, quantity, handler) {
+
+        goodsDao.getByUserAndType(user_id, type, function(goods) {
+            if(goods.length === 1) {
+                var new_quantity = parseInt(goods[0].quantity) - quantity;
+                goodsDao.updateQuantity(goods[0].id, new_quantity, handler);
+            }
+        });
+    }
 };
 
 module.exports = new service();
