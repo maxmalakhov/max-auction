@@ -1,9 +1,18 @@
+/**
+ * Created by max on 1/31/16.
+ */
 var express = require('express');
 var router = express.Router();
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-    res.send('respond with a resource');
-});
+var controller  = require('../controllers/goods-controller');
 
-module.exports = router;
+router.get('/:id', function(req, res, next) {
+    var id = req.params.id;
+
+        // succeed
+        res.send({
+            success: true,
+            goods: id
+        });
+
+});

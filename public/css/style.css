@@ -54,6 +54,10 @@ a {
     border: none;
 }
 
+.table tbody>tr>td.vert-align {
+    vertical-align: middle;
+}
+
 .app-icon {
     position: relative;
     top: 1px;

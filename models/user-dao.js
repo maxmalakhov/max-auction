@@ -4,9 +4,9 @@
 var pg = require('pg');
 var connectionString = require('../config/db-connection');
 
-var database =  function() {};
+var dao =  function() {};
 
-database.prototype  = {
+dao.prototype  = {
 
     'get' : function(username, handler, options) {
 
@@ -17,7 +17,6 @@ database.prototype  = {
             }
 
             var results = [];
-
             var query = client.query("select * from users where username = $1", [username]);
             // Stream results back one row at a time
             query.on('row', function(row) {
@@ -38,16 +37,28 @@ database.prototype  = {
             if(err) {
                 return console.log('Could not connect to postgres', err);
             }
+            // try to insert
+            client.query(
+                "insert into users (username, fullname, balance) values ($1, $2, $3)",
+                [username, fullname, balance],
+                function(err, result) {
+                    if(err) {
+                        return console.log('Could not insert new record', err);
+                    }
+                }
+            );
 
-            var result = { username: username, fullname: fullname, balance: balance };
-
-            var query = client.query("insert into users (username, fullname, balance) values ($1, $2, $3)", [username, fullname, balance]);
+            var results = [];
+            var query = client.query("select * from users where username = $1", [username]);
+            // Stream results back one row at a time
+            query.on('row', function(row) {
+                results.push(row);
+            });
 
             query.on('end', function() {
                 done();
-                handler(result, options);
+                handler(results[0], options);
             });
-
         });
     },
 
@@ -75,4 +86,4 @@ database.prototype  = {
     }
 };
 
-module.exports = new database();
+module.exports = new dao();

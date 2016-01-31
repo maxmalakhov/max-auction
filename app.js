@@ -7,7 +7,7 @@ var bodyParser = require('body-parser');
 var session = require('express-session')
 
 var users = require('./routes/users');
-var goods = require('./routes/goods');
+//var goods = require('./routes/goods');
 
 var app = express();
 
@@ -25,7 +25,7 @@ app.use(session({
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api/user', users);
-app.use('/api/goods', goods);
+//app.use('/api/goods', goods);
 app.get('*', function(req, res) {
     res.redirect("/");
 });

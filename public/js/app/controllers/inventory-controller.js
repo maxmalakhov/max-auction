@@ -4,28 +4,24 @@
 define([
     'angular',
     'app/utils/logger',
-    'app/services/entry-service',
-    'app/services/stats-service'
-], function (angular, logger, entryService, statsService) {
+    'app/services/inventory-service'
+], function (angular, logger, inventoryService) {
     'use strict';
 
     return function($scope, $location, $rootScope, $http) {
 
-        statsService.user($http, $rootScope.loggedUser, function(data) {
-            if(data.success && data.user) {
-                $scope.user = data.user;
+        inventoryService.goods($http, $rootScope.loggedUser, function(data) {
+
+            if(data.success && data.goods) {
+                $scope.goods = data.goods;
             } else {
                 $scope.error = data.error;
+                $scope.msg = data.msg;
             }
         });
 
-        $scope.exit = function() {
-            if(entryService.logout()) {
-                $rootScope.loggedUser = "";
-                $location.path( "/" );
-            } else {
-                $scope.error = "Something goes wrong!";
-            }
+        $scope.auction = function(itemId) {
+            logger.debug('auction', itemId);
         }
     }
 });

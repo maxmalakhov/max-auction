@@ -13,11 +13,12 @@ define([
 
             service.login($http, $scope.username, function(data) {
 
-                if(data.success) {
-                    $rootScope.loggedUser = $scope.username;
+                if(data.success && data.user) {
+                    $rootScope.loggedUser = data.user;
                     $location.path( "/home" );
                 } else {
-                    $scope.error = "Something went wrong!";
+                    $scope.error = data.error;
+                    $scope.msg = data.msg;
                 }
             });
         }

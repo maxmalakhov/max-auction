@@ -4,9 +4,9 @@
 var pg = require('pg');
 var connectionString = require('../config/db-connection');
 
-var database =  function() {};
+var dao =  function() {};
 
-database.prototype  = {
+dao.prototype  = {
 
     'getByUser' : function(user_id, handler, options) {
 
@@ -17,8 +17,7 @@ database.prototype  = {
             }
 
             var results = [];
-
-            var query = client.query("select * from inventory where user_id = $1", [user_id]);
+            var query = client.query("select * from goods where user_id = $1", [user_id]);
             // Stream results back one row at a time
             query.on('row', function(row) {
                 results.push(row);
@@ -39,13 +38,26 @@ database.prototype  = {
                 return console.log('Could not connect to postgres', err);
             }
 
-            var result = { user_id: user_id, type: type, quantity: quantity };
+            // try to insert
+            client.query(
+                "insert into goods (user_id, type, quantity) values ($1, $2, $3)",
+                [user_id, type, quantity],
+                function(err, result) {
+                    if(err) {
+                        return console.log('Could not insert new record', err);
+                    }
+            });
 
-            var query = client.query("insert into inventory (user_id, type, quantity) values ($1, $2, $3)", [user_id, type, quantity]);
+            var results = [];
+            var query = client.query("select * from goods where user_id = $1", [user_id]);
+            // Stream results back one row at a time
+            query.on('row', function(row) {
+                results.push(row);
+            });
 
             query.on('end', function() {
                 done();
-                handler(result, options);
+                handler && handler(data, options);
             });
 
         });
@@ -75,4 +87,4 @@ database.prototype  = {
     }
 };
 
-module.exports = new database();
+module.exports = new dao();

@@ -12,10 +12,12 @@ define([
     return function($scope, $location, $rootScope, $http) {
 
         statsService.user($http, $rootScope.loggedUser, function(data) {
+
             if(data.success && data.user) {
                 $scope.user = data.user;
             } else {
                 $scope.error = data.error;
+                $scope.message = data.message;
             }
         });
 
