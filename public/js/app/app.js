@@ -7,8 +7,9 @@ define([
     'angular-route',
     'app/config',
     'app/directives/app-stats',
-    'app/directives/app-inventory'
-], function (angular, angularAMD, angularRoute, config, appStats, appInventory) {
+    'app/directives/app-inventory',
+    'app/directives/app-auction'
+], function (angular, angularAMD, angularRoute, config, appStats, appInventory, appAuction) {
     'use strict';
 
     var app = angular.module('webapp' , ['ngRoute'] );
@@ -16,6 +17,7 @@ define([
 
     app.directive('appStats', appStats);
     app.directive('appInventory', appInventory);
+    app.directive('appAuction', appAuction);
 
     //app.run(function ($window, auth, user) {
     //    auth.setAuthorizationHeaders();

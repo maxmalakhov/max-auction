@@ -20,7 +20,7 @@ define([
             }
         });
 
-        $scope.auction = function(itemId) {
+        $scope.start = function(itemId) {
             logger.debug('auction', itemId);
         }
     }
