@@ -30,6 +30,12 @@ server.on('error', onError);
 server.on('listening', onListening);
 
 /**
+ * Create WebSocket server
+ */
+var wss = require('../wss');
+wss.init(server);
+
+/**
  * Create database scheme
  */
 var tables = require('../models/db-tables');

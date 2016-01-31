@@ -1,7 +1,8 @@
 <div class="panel panel-info">
     <div class="panel-heading">Current Auction</div>
     <div class="panel-body">
-        <form class="form-horizontal">
+        <div class="alert alert-warning" ng-show="!showAuction" role="alert">No auction at the moment.</div>
+        <form class="form-horizontal" ng-show="showAuction">
             <div class="form-group">
                 <label for="sellerName" class="col-sm-4 control-label">Seller</label>
                 <div class="col-sm-4">

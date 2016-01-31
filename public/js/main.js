@@ -10,11 +10,13 @@ require.config({
     paths:{
         // Aliases and paths of modules
         //'angular': '../lib/angular.min',
-        'jquery': '../lib/jquery.min',
-        'bootstrap': '../lib/bootstrap.min',
         'angular': '../lib/angular',
         'angularAMD': '../lib/angularAMD.min',
-        'angular-route': '../lib/angular-route.min',
+        'route': '../lib/angular-route.min',
+        'websocket': '../lib/angular-websocket.min',
+
+        'jquery': '../lib/jquery.min',
+        'bootstrap': '../lib/bootstrap.min',
 
         'app': '../js/app',
         'views': '../views'
@@ -28,9 +30,16 @@ require.config({
             deps: ['angular'],
             exports: 'angularAMD'
         },
-        'angular-route': {
+        'route': {
             deps: ['angular'],
-            exports: 'angular-route'
+            exports: 'route'
+        },
+        'websocket': {
+            deps: ['angular'],
+            exports: 'websocket'
+        },
+        'jquery': {
+            exports: 'jquery'
         },
         'bootstrap': {
             deps: ['jquery'],

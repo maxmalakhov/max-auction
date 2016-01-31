@@ -17,7 +17,9 @@
     "underscore": "~1.8.3",
     "bootstrap": "~3.3.6",
     "session": "~0.1.0",
-    "express-session": "~1.13.0"
+    "express-session": "~1.13.0",
+    "ws": "~1.0.1",
+    "angular-websocket": "~1.0.14"
   },
   "devDependencies": {
     "mocha": "~2.4.5",

@@ -11,14 +11,21 @@ define([
     return function($scope, $location, $rootScope, $http) {
         $scope.showModal = false;
 
-        $scope.openDialog = function(item) {
-            console.debug('opened', item);
+        $scope.closeDialog = function() {
             $scope.showModal = !$scope.showModal;
         };
 
-        $scope.start = function() {
+        $scope.openDialog = function(item) {
+            $scope.item = item;
 
-            console.log();
-        }
+            $scope.showModal = !$scope.showModal;
+        };
+
+        $scope.startAuction = function() {
+
+            $scope.showModal = !$scope.showModal;
+
+            console.log('start', $scope.item);
+        };
     }
 });

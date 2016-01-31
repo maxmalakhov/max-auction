@@ -5,9 +5,8 @@ define([
     'app/controllers/entry-controller',
     'app/controllers/home-controller'
 ], function(EntryController, HomeController) {
-    return ['$routeProvider', '$locationProvider', '$httpProvider',
-        function ($routeProvider, $locationProvider, $httpProvider) {
-            //$httpProvider.interceptors.push('httpInterceptor');
+    return ['$routeProvider', '$locationProvider',
+        function ($routeProvider, $locationProvider) {
 
             $routeProvider
                 .when('/', {templateUrl: 'views/entry.html', controller: EntryController })
