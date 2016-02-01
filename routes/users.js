@@ -6,7 +6,7 @@ var goodsController  = require('../controllers/goods-controller');
 
 /* GET users listing. */
 router.get('/:username', function(req, res, next) {
-    var username = req.params.username;
+    var username = checkUsername(req.params.username);
 
     userController.getUser(
         username,
@@ -29,7 +29,7 @@ router.get('/:username', function(req, res, next) {
 });
 
 router.get('/:username/goods', function(req, res, next) {
-    var username = req.params.username;
+    var username = checkUsername(req.params.username);
 
     userController.getUserGoods(
         username,
@@ -52,7 +52,8 @@ router.get('/:username/goods', function(req, res, next) {
 });
 
 router.post('/', function(req, res, next) {
-    var username = req.body.username;
+    var username = checkUsername(req.body.username);
+
 
     userController.getUser(
         username,
@@ -75,3 +76,7 @@ router.post('/', function(req, res, next) {
 });
 
 module.exports = router;
+
+function checkUsername(username) {
+    return username.replace(/\s/g, "_");
+}

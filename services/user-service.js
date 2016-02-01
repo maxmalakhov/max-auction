@@ -49,7 +49,7 @@ service.prototype = {
         });
     },
 
-    'createNew' : function(username, handler, handler) {
+    'createNew' : function(username, handler) {
 
         userDao.create(username, capitalise(username), COINS, function (user) {
 
@@ -75,7 +75,9 @@ module.exports = new service();
 
 function capitalise(string) {
 
-    var words = string.split(" ");
+    var fullname = string.replace(/\_/g, " ");
+
+    var words = fullname.split(" ");
     for ( var i = 0; i < words.length; i++ )
     {
         var j = words[i].charAt(0).toUpperCase();
