@@ -8,13 +8,14 @@ define([
     'use strict';
 
     return {
-        notify : function( level, title, msg ) {
+        notify : function( level, title, msg, timer ) {
             $.notify({
                 icon: 'glyphicon glyphicon-'+level+'-sign',
                 title: '<strong>'+title+'</strong>',
                 message: msg
             }, {
-                type: level
+                type: level,
+                timer: timer || 5 // sec
             });
         }
     };

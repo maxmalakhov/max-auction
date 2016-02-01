@@ -7,19 +7,19 @@ var goodsService  = require('../services/goods-service');
 
 var service = function() {};
 
-var ws = false;
+var wss = false;
 
 service.prototype = {
 
     'notify': function(data) {
-        ws.send(JSON.stringify({ receiver: 'auction', data: data }), function(data) {
+        wss.broadcast(JSON.stringify({ receiver: 'auction', data: data }), function(data) {
             console.log('sent', data);
         });
     },
 
-    'process': function(_ws, auction) {
+    'process': function(_wss, auction) {
 
-        ws = _ws;
+        wss = _wss;
         var self = this;
 
         var seller = auction.seller;
@@ -28,10 +28,10 @@ service.prototype = {
         var price = auction.lastbid;
         var quantity = auction.quantity;
 
-        //if(seller.id === buyer.id) {
-        //    self.notify({ auction: false, msg: "There were no one bids" });
-        //    return;
-        //}
+        if(seller.id === buyer.id) {
+            self.notify({ auction: false, msg: "There were no one bids" });
+            return;
+        }
 
         if(buyer.balance < auction.lastbid) {
             self.notify({ auction: false, msg: "Buyer does not have enough coins" });
@@ -49,12 +49,17 @@ service.prototype = {
                 // increase buyer item quantity
                 goodsService.increaseQuantity(buyer.id, type, quantity, function() {
 
+                    // increase seller coins
+                    userService.updateBalance(seller.id, seller_balance, function() {
+
+                        self.notify({
+                            msg: "Winner bid - " + auction.lastbid + ". Winner - "+buyer.fullname,
+                            level: 'info',
+                            timer: 10 // sec
+                        });
+                    });
                 });
 
-                // increase seller coins
-                userService.updateBalance(seller.id, seller_balance, function() {
-
-                });
             });
         });
     }

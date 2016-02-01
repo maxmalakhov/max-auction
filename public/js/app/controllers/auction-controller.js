@@ -20,7 +20,7 @@ define([
                 $scope.showAuction= true;
             } else {
                 $scope.showAuction= false;
-                notifier.notify('warning','Current Action', data.msg);
+                notifier.notify(data.level || 'warning', 'Current Action', data.msg, data.timer);
             }
         });
 

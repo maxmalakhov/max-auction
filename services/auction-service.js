@@ -42,8 +42,12 @@ service.prototype = {
                         self.timer();
                         self.broadcast({ auction: auction });
                     },
-                    function() {
-                        self.broadcast({ msg: "Current auction has not been ended yet!" });
+                    function(error) {
+                        if(error) {
+                            self.broadcast(error);
+                        } else {
+                            self.broadcast({msg: "Current auction has not been ended yet!"});
+                        }
                     });
                 return;
             }
@@ -52,8 +56,12 @@ service.prototype = {
                     function(auction) {
                         self.broadcast({ auction: auction });
                     },
-                    function() {
-                        self.broadcast({ msg: "Current auction has been already ended!" });
+                    function(error, auction) {
+                        if(error) {
+                            self.broadcast(error);
+                        } else {
+                            self.broadcast({ msg: "Current auction has been already ended!" });
+                        }
                     });
                 return;
             }
@@ -95,6 +103,10 @@ function update(user_id, auction, success, failure) {
 
     if(current) {
         userService.getUser(user_id, function(user) {
+            if(user.balance < auction.lastbid) {
+                failure({ auction: auction, msg: "Buyer does not have enough coins" });
+                return;
+            }
             success(updateAuction(user, auction));
         });
     } else {
@@ -115,7 +127,7 @@ function updateAuction(user, auction) {
 function processTime(handler) {
     if(current.timeleft < 1) {
         clearInterval(intervalId);
-        tradeService.process(ws, current);
+        tradeService.process(wss, current);
 
         current = false;
     } else {

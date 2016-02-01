@@ -11,6 +11,10 @@ define([
     return function($scope, $location, $rootScope, $http) {
         $scope.enter = function() {
 
+            if(!$scope.username) {
+                return;
+            }
+
             service.login($http, $scope.username, function(data) {
 
                 if(data.success && data.user) {
