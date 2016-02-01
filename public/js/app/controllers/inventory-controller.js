@@ -8,7 +8,7 @@ define([
 ], function (angular, logger, inventoryService) {
     'use strict';
 
-    return function($scope, $location, $rootScope, $http) {
+    function load($http, $rootScope, $scope) {
 
         inventoryService.goods($http, $rootScope.loggedUser, function(data) {
 
@@ -19,5 +19,16 @@ define([
                 $scope.msg = data.msg;
             }
         });
+    }
+
+    return function($scope, $location, $rootScope, $http) {
+
+        load($http, $rootScope, $scope);
+
+        var intervalId = setInterval(function() {
+
+            load($http, $rootScope, $scope);
+
+        }, 3000);
     }
 });

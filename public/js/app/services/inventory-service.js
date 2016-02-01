@@ -9,14 +9,12 @@ define([
 
     return {
         goods: function($http, user, handler) {
-            logger.debug('login', user.username);
 
             $http({
                 method  : 'GET',
                 url     : '/api/user/' + user.username + '/goods/'
             })
             .success(function(data) {
-                logger.debug(data);
 
                 handler(data)
             })

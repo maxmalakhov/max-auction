@@ -9,7 +9,7 @@ define([
 ], function (angular, logger, entryService, statsService) {
     'use strict';
 
-    return function($scope, $location, $rootScope, $http) {
+    function load($http, $rootScope, $scope) {
 
         statsService.user($http, $rootScope.loggedUser, function(data) {
 
@@ -20,6 +20,18 @@ define([
                 $scope.message = data.message;
             }
         });
+    }
+
+
+    return function($scope, $location, $rootScope, $http) {
+
+        load($http, $rootScope, $scope);
+
+        var intervalId = setInterval(function() {
+
+            load($http, $rootScope, $scope);
+
+        }, 3000);
 
         $scope.exit = function() {
             if(entryService.logout()) {

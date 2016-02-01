@@ -9,7 +9,6 @@ define([
 
     return {
         login: function($http, username, handler) {
-            logger.debug('login', username);
 
             $http({
                 method  : 'POST',
@@ -17,7 +16,6 @@ define([
                 data    : { username: username }
             })
             .success(function(data) {
-                logger.debug(data);
 
                 handler(data)
             })

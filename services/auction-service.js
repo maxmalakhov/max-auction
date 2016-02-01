@@ -148,7 +148,7 @@ function createAuction(user, auction) {
         buyer: user,
         type: auction.type,
         quantity: auction.quantity,
-        timelength: 90, // sec
+        timelength: 10, // sec
         timeleft: 90, // sec
         lastbid: auction.bid,
         bid: auction.bid+1,
