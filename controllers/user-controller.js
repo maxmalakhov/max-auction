@@ -21,7 +21,7 @@ controller.prototype = {
                     } else {
                         failure()
                     }
-                })
+                });
             }
         });
     },
